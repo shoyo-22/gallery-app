@@ -1,0 +1,6 @@
+@use './variables' as variables;
+
+@mixin container {
+  max-width: variables.$container-max-width-desktop;
+  margin: 0 auto;
+}
