@@ -4,3 +4,19 @@
   max-width: variables.$container-max-width-desktop;
   margin: 0 auto;
 }
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex-direction($value: row) {
+  flex-direction: $value;
+}
+
+@mixin justify-content($value: space-between) {
+  justify-content: $value;
+}
+
+@mixin align-items($value: center) {
+  align-items: $value;
+}
