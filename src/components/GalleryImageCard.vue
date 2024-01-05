@@ -1,6 +1,7 @@
 <script setup>
 import GalleryImageAuthor from './GalleryImageAuthor.vue';
 import GalleryImageMetric from './GalleryImageMetric.vue';
+import { RouterLink } from 'vue-router';
 
 defineProps({
   photoInfo: {
@@ -12,14 +13,16 @@ defineProps({
 
 <template>
   <article class="image-card">
-    <div class="image-card__image-container">
-      <img
-        :src="photoInfo.urls.regular"
-        :alt="photoInfo.description || photoInfo.alt_description"
-        loading="lazy"
-        class="image-card__image"
-      />
-    </div>
+    <RouterLink :to="{ path: `image/${photoInfo.id}` }">
+      <div class="image-card__image-container">
+        <img
+          :src="photoInfo.urls.regular"
+          :alt="photoInfo.description || photoInfo.alt_description"
+          loading="lazy"
+          class="image-card__image"
+        />
+      </div>
+    </RouterLink>
     <div class="image-card__body">
       <GalleryImageMetric :likes="photoInfo.likes" />
       <GalleryImageAuthor :author="photoInfo.user" />
