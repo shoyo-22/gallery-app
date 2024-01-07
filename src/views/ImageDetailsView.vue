@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import axios from 'axios';
 import GalleryImageAuthor from '@/components/GalleryImageAuthor.vue';
+import api, { ACCESS_KEY } from '@/config/api';
 
 const props = defineProps({
   id: String,
@@ -15,9 +15,7 @@ onBeforeMount(() => {
 
 async function getImageDetails() {
   try {
-    const response = await axios.get(
-      `https://api.unsplash.com/photos/${props.id}?client_id=${import.meta.env.VITE_ACCESS_KEY}`,
-    );
+    const response = await api.get(`/photos/${props.id}?client_id=${ACCESS_KEY}`);
     photoInfo.value = response.data;
   } catch (error) {
     console.error(error);

@@ -1,8 +1,8 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import axios from 'axios';
 import GalleryImageCard from '@/components/GalleryImageCard.vue';
 import GalleryImageGrid from '@/components/GalleryImageGrid.vue';
+import api, { ACCESS_KEY } from '@/config/api';
 
 let photoList = ref([]);
 
@@ -12,11 +12,7 @@ onBeforeMount(() => {
 
 async function getPhotos() {
   try {
-    const response = await axios.get(
-      `https://api.unsplash.com/photos?page=1&per_page=9&client_id=${
-        import.meta.env.VITE_ACCESS_KEY
-      }`,
-    );
+    const response = await api.get(`/photos?page=1&per_page=9&client_id=${ACCESS_KEY}`);
     photoList.value = response.data;
   } catch (error) {
     console.error(error);
