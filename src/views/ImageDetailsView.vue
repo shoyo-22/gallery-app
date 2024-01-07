@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import GalleryImageAuthor from '@/components/GalleryImageAuthor.vue';
-import api, { ACCESS_KEY } from '@/config/api';
+import api from '@/config/api';
 
 const props = defineProps({
   id: String,
@@ -15,7 +15,7 @@ onBeforeMount(() => {
 
 async function getImageDetails() {
   try {
-    const response = await api.get(`/photos/${props.id}?client_id=${ACCESS_KEY}`);
+    const response = await api.get(`/photos/${props.id}`);
     photoInfo.value = response.data;
   } catch (error) {
     console.error(error);

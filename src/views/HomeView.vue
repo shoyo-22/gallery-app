@@ -2,7 +2,7 @@
 import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import GalleryImageCard from '@/components/GalleryImageCard.vue';
 import GalleryImageGrid from '@/components/GalleryImageGrid.vue';
-import api, { ACCESS_KEY } from '@/config/api';
+import api from '@/config/api';
 
 let photoList = ref([]);
 let page = ref(1);
@@ -36,10 +36,8 @@ async function getPhotos(searchQuery = '') {
   loading.value = true;
 
   const apiUrl = searchQuery.trim()
-    ? `/search/photos?query=${encodeURIComponent(searchQuery)}&page=${
-        page.value
-      }&per_page=9&client_id=${ACCESS_KEY}`
-    : `/photos?page=${page.value}&per_page=9&client_id=${ACCESS_KEY}`;
+    ? `/search/photos?query=${encodeURIComponent(searchQuery)}&page=${page.value}&per_page=9`
+    : `/photos?page=${page.value}&per_page=9`;
 
   try {
     const response = await api.get(apiUrl);
