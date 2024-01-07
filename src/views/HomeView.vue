@@ -67,7 +67,8 @@ onBeforeUnmount(() => {
 <template>
   <h1>Gallery app</h1>
   <main>
-    <section>
+    <section class="query-section">
+      <img src="@/assets/overlay-image.jpeg" alt="" />
       <input type="text" v-model="searchQuery" placeholder="Search..." @input="debouncedSearch" />
     </section>
     <GalleryImageGrid>
@@ -76,3 +77,30 @@ onBeforeUnmount(() => {
   </main>
   <div v-if="loading" style="text-align: center">Loading...</div>
 </template>
+
+<style lang="scss" scoped>
+.query-section {
+  padding: $spacing-7xl $spacing-xl;
+  position: relative;
+  background-color: rgba($black, 0.5);
+  display: flex;
+  justify-content: center;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  input {
+    max-width: 54em;
+    width: 100%;
+    padding: $spacing-2xl;
+    background-color: $white;
+  }
+}
+</style>
