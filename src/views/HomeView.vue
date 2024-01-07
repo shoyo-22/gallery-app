@@ -63,7 +63,6 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <h1>Gallery app</h1>
   <main>
     <section class="query-section">
       <img src="@/assets/overlay-image.jpeg" alt="" />
