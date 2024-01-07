@@ -4,6 +4,7 @@ import GalleryImageAuthor from '@/components/GalleryImageAuthor.vue';
 import api from '@/config/api';
 import BaseLoader from '@/components/common/BaseLoader.vue';
 import HeartIcon from '@/components/icons/HeartIcon.vue';
+import SolidHeartIcon from '@/components/icons/SolidHeartIcon.vue';
 
 const props = defineProps({
   id: String,
@@ -11,9 +12,11 @@ const props = defineProps({
 
 let photoInfo = ref({});
 let loading = ref(false);
+let isInFavoriteList = ref(false);
 
 onBeforeMount(() => {
   getImageDetails();
+  checkStatus();
 });
 
 async function getImageDetails() {
@@ -47,6 +50,27 @@ async function downloadImage() {
   a.click();
   document.body.removeChild(a);
 }
+
+function addToFavorite() {
+  const storedData = localStorage.getItem('favoriteList');
+  let favoriteList = storedData ? JSON.parse(storedData) : [];
+  if (favoriteList.includes(props.id)) {
+    favoriteList = favoriteList.filter((el) => el !== props.id);
+    isInFavoriteList.value = false;
+  } else {
+    favoriteList.push(props.id);
+    isInFavoriteList.value = true;
+  }
+  localStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+}
+
+function checkStatus() {
+  const storedData = localStorage.getItem('favoriteList');
+  let favoriteList = storedData ? JSON.parse(storedData) : [];
+  if (favoriteList.includes(props.id)) {
+    isInFavoriteList.value = true;
+  }
+}
 </script>
 
 <template>
@@ -60,7 +84,10 @@ async function downloadImage() {
         <GalleryImageAuthor :author="photoInfo.user" />
 
         <div class="image-details__actions">
-          <button><HeartIcon /></button>
+          <button @click="addToFavorite">
+            <SolidHeartIcon v-if="isInFavoriteList" />
+            <HeartIcon v-else />
+          </button>
           <button @click="downloadImage">Скачать</button>
         </div>
       </header>
