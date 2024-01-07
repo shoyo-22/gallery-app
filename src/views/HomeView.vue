@@ -3,6 +3,7 @@ import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import GalleryImageCard from '@/components/GalleryImageCard.vue';
 import GalleryImageGrid from '@/components/GalleryImageGrid.vue';
 import ScrollToTopBtn from '@/components/common/ScrollToTopBtn.vue';
+import BaseLoader from '@/components/common/BaseLoader.vue';
 import api from '@/config/api';
 
 let photoList = ref([]);
@@ -72,8 +73,8 @@ onBeforeUnmount(() => {
     <GalleryImageGrid>
       <GalleryImageCard v-for="photo in photoList" :key="photo.id" :photoInfo="photo" />
     </GalleryImageGrid>
+    <BaseLoader v-if="loading" />
   </main>
-  <div v-if="loading" style="text-align: center">Loading...</div>
   <ScrollToTopBtn />
 </template>
 
