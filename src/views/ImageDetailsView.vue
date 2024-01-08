@@ -5,6 +5,7 @@ import api from '@/config/api';
 import BaseLoader from '@/components/common/BaseLoader.vue';
 import HeartIcon from '@/components/icons/HeartIcon.vue';
 import SolidHeartIcon from '@/components/icons/SolidHeartIcon.vue';
+import { downloadImage } from '@/utils/imageDownload';
 
 const props = defineProps({
   id: String,
@@ -30,25 +31,6 @@ async function getImageDetails() {
   } finally {
     loading.value = false;
   }
-}
-
-function toDataURL(url) {
-  return fetch(url)
-    .then((response) => {
-      return response.blob();
-    })
-    .then((blob) => {
-      return window.URL.createObjectURL(blob);
-    });
-}
-
-async function downloadImage() {
-  const a = document.createElement('a');
-  a.href = await toDataURL(photoInfo.value.urls.full);
-  a.download = `photo-${props.id}.png`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 }
 
 function addToFavorite() {
@@ -88,7 +70,7 @@ function checkStatus() {
             <SolidHeartIcon v-if="isInFavoriteList" />
             <HeartIcon v-else />
           </button>
-          <button @click="downloadImage">Скачать</button>
+          <button @click="downloadImage(photoInfo.urls.full, props.id)">Скачать</button>
         </div>
       </header>
       <div class="image-container">

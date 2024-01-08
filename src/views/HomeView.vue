@@ -5,6 +5,7 @@ import GalleryImageGrid from '@/components/GalleryImageGrid.vue';
 import ScrollToTopBtn from '@/components/common/ScrollToTopBtn.vue';
 import BaseLoader from '@/components/common/BaseLoader.vue';
 import api from '@/config/api';
+import { debounce } from '@/utils/utils';
 
 let photoList = ref([]);
 let page = ref(1);
@@ -15,16 +16,6 @@ onBeforeMount(() => {
   getPhotos();
   window.addEventListener('scroll', handleScroll);
 });
-
-const debounce = (fn, delay) => {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
 
 const debouncedSearch = debounce(() => {
   loading.value = true;
@@ -38,11 +29,11 @@ async function getPhotos(searchQuery = '') {
   loading.value = true;
 
   const apiUrl = searchQuery.trim()
-    ? `/search/photos?query=${encodeURIComponent(searchQuery)}&page=${page.value}&per_page=9`
-    : `/photos?page=${page.value}&per_page=9`;
+    ? `/search/photos?query=${encodeURIComponent(searchQuery)}&`
+    : `/photos?`;
 
   try {
-    const response = await api.get(apiUrl);
+    const response = await api.get(`${apiUrl}page=${page.value}&per_page=9`);
     const responseData = searchQuery.trim() ? response.data.results : response.data;
     photoList.value = [...photoList.value, ...responseData];
     page.value++;
